@@ -8,7 +8,7 @@ obj_entity = "IOC"
 sub = re.search(sub_entity,sentence)
 obj = re.search(obj_entity,sentence)
 print('\n')
-print("{'start_idx':%d , 'end_idx': %d}\t\t\t\tsubject" %(sub.start(),sub.end()))
+print("{'start_idx': %d , 'end_idx': %d}\t\t\t\tsubject" %(sub.start(),sub.end()))
 print('\n')
-print("{'start_idx':%d , 'end_idx': %d}\t\t\t\tobject" %(obj.start(),obj.end()))
+print("{'start_idx': %d , 'end_idx': %d}\t\t\t\tobject" %(obj.start(),obj.end()))
 
