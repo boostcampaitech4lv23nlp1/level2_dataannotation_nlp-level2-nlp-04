@@ -125,11 +125,6 @@ def to_entity_csv(dir_path, work_dir):
             subj_info = dict()
             obj_info  = dict()
 
-            subj_type = annotation_legend[subj_entity["classId"]].split('-')[-1]
-            obj_type = annotation_legend[obj_entity["classId"]].split('-')[-1]
-            subj_text = subj_entity["offsets"][0]['text']
-            obj_text = obj_entity["offsets"][0]['text']
-
             subj_info['word'] = subj_entity["offsets"][0]['text']
             subj_info['start_idx'] = subj_entity["offsets"][0]['start']
             subj_info['end_idx'] = subj_info['start_idx'] + len(subj_info['word'])
@@ -239,7 +234,6 @@ def to_entity_csv(dir_path, work_dir):
     sentence_list = []
     subj_list=[]
     obj_list = []
-    relation_list =[]
 
     for idx,(relation_file, context_file, file_num) in enumerate(zip(relation_files,context_files, file_nums)):
         #subject, object 정보 추출
@@ -291,9 +285,9 @@ def to_entity_csv(dir_path, work_dir):
 
 
 if __name__ == '__main__':
-    USER_ID = ""  # tagtog id
-    USER_PW = ""  # tagtog pw
-    WORK_DIR = "final/<@@@@@@>" # 실제 json 파일이 있는 마지막 디렉터리 경로  WORKER 있던 폴더이름 넣어주세요
+    USER_ID = input("ID : ")  # tagtog id
+    USER_PW = input("PW : ")  # tagtog pw
+    WORK_DIR = "final/" # 실제 json 파일이 있는 마지막 디렉터리 경로  WORKER 있던 폴더이름 넣어주세요
 
     # 다운로드
     o_file = file_download(USER_ID,USER_PW)
@@ -303,7 +297,13 @@ if __name__ == '__main__':
     
     # 작업할 폴더 변경
     dir_path += "/olympics/" 
-
+    
+    context_name_list = os.listdir(dir_path + "ann.json/master/pool/final")
+    print("Directory list : ", context_name_list)
+    # 작업할 폴더 이름 입력
+    
+    WORK_DIR += input("Work Directory : ")
+    
     # 데이터 정제 및 데이터 프레임 반환
     output = to_entity_csv(dir_path,WORK_DIR)
     output.to_csv('output.csv', index=False)
