@@ -3,12 +3,7 @@ import glob
 import re
 import os
 import pandas as pd
-import html
-
 import requests
-from bs4 import BeautifulSoup
-from urllib.parse import urljoin
-
 import zipfile
 import shutil
 
@@ -161,6 +156,24 @@ def to_entity_csv(dir_path, work_dir):
             sentence = context_json[m.start():m.end()]
             sentence = re.sub(f'<pre id="{parts}">',"",sentence)
             sentence = re.sub(r"</pre>","",sentence)
+            
+            
+            # 문장부호 처리
+            sentence = re.sub(r'&quot;','"',sentence)
+            sentence = re.sub(r"&lt;",'<',sentence)
+            sentence = re.sub(r"&gt;",'>',sentence)
+            sentence = re.sub(r"&amp;",'&',sentence)
+            sentence = re.sub(r"&nbsp;",' ',sentence)
+
+            # 문장부호 처리 후 인덱스 정보 추출
+            subj = re.search(subj_info["word"],sentence)
+            obj = re.search(obj_info["word"],sentence)
+            
+            subj_info["start_idx"] = subj.start()
+            subj_info["end_idx"] = subj.start() + len( subj_info["word"])
+            obj_info["start_idx"] = obj.start()
+            obj_info["end_idx"] = obj.start() + len( obj_info["word"])
+
 
             # 인덱스 정보 재추출 때문에 마커 사용
             if subj_info['start_idx'] < obj_info['start_idx']:
@@ -186,12 +199,6 @@ def to_entity_csv(dir_path, work_dir):
 
 
 
-            # 문장부호 처리
-            sentence_with_entity = re.sub(r'&quot;','"',sentence_with_entity)
-            sentence_with_entity = re.sub(r"&lt;",'<',sentence_with_entity)
-            sentence_with_entity = re.sub(r"&gt;",'>',sentence_with_entity)
-            sentence_with_entity = re.sub(r"&amp;",'&',sentence_with_entity)
-            sentence_with_entity = re.sub(r"&nbsp;",'&',sentence_with_entity)
 
             # 후 처리
             sentence_with_entity = re.sub(r'\s+',' ',sentence_with_entity).strip()
