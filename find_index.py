@@ -81,7 +81,7 @@ if __name__ == '__main__':
         subj_dict_list.append(subj_dict_)
         obj_dict_list.append(obj_dict_)
         
-    output_df = pd.DataFrame({'id':range(len(sentence_list)),'sentence':sentence_list,'subject_entity':subj_list,'object_entity':obj_list,'subj_type':subj_type_list,'obj_type':obj_type_list, 'subj_index':subj_dict_list,'obj_index':obj_dict_list })
+    output_df = pd.DataFrame({'id':range(len(sentence_list)),'sentence':sentence_list,'subj_entity':subj_list,'obj_entity':obj_list,'subj_type':subj_type_list,'obj_type':obj_type_list, 'subj_index':subj_dict_list,'obj_index':obj_dict_list })
 
     output_df.to_csv('append.csv')
         
