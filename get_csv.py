@@ -3,12 +3,7 @@ import glob
 import re
 import os
 import pandas as pd
-import html
-
 import requests
-from bs4 import BeautifulSoup
-from urllib.parse import urljoin
-
 import zipfile
 import shutil
 
