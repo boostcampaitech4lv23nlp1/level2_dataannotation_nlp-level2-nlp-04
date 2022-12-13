@@ -157,24 +157,14 @@ def to_entity_csv(dir_path, work_dir):
             sentence = re.sub(f'<pre id="{parts}">',"",sentence)
             sentence = re.sub(r"</pre>","",sentence)
             
-            
             # 문장부호 처리
             sentence = re.sub(r'&quot;','"',sentence)
             sentence = re.sub(r"&lt;",'<',sentence)
             sentence = re.sub(r"&gt;",'>',sentence)
             sentence = re.sub(r"&amp;",'&',sentence)
-            sentence = re.sub(r"&nbsp;",' ',sentence)
-
-            # 문장부호 처리 후 인덱스 정보 추출
-            subj = re.search(subj_info["word"],sentence)
-            obj = re.search(obj_info["word"],sentence)
+            sentence = re.sub(r"&nbsp;",'&',sentence)
             
-            subj_info["start_idx"] = subj.start()
-            subj_info["end_idx"] = subj.start() + len( subj_info["word"])
-            obj_info["start_idx"] = obj.start()
-            obj_info["end_idx"] = obj.start() + len( obj_info["word"])
-
-
+            
             # 인덱스 정보 재추출 때문에 마커 사용
             if subj_info['start_idx'] < obj_info['start_idx']:
                 s1 = subj_info['start_idx']
@@ -196,9 +186,6 @@ def to_entity_csv(dir_path, work_dir):
 
             # WORKER 제거
             sentence_with_entity = re.sub(r'WORKER[0-9]',"",sentence_with_entity)
-
-
-
 
             # 후 처리
             sentence_with_entity = re.sub(r'\s+',' ',sentence_with_entity).strip()
@@ -288,7 +275,6 @@ def to_entity_csv(dir_path, work_dir):
     df = pd.DataFrame({'id':range(len(sentence_list)),'sentence':sentence_list,'subj_entity':subj_word,'obj_entity':obj_word,'subj_type':subj_type, 'obj_type':obj_type, 'subj_index':subj_index,'obj_index':obj_index,'relation':relation})
     
     return df
-
 
 
 if __name__ == '__main__':
