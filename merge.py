@@ -9,11 +9,11 @@ def merge(folder_dir):
 
     Args:
         folder_dir (str): 합치고자 하는 파일이 있는 폴더의 디렉토리
-            column: [id,sentence,subj_entity,obj_entity,subj_type,obj_type,subj_index,obj_index]
+            column: [id,sentence,subj_entity,obj_entity,subj_type,obj_type,subj_index,obj_index,relation]
     
     Returns:
         all_df (pandas.Dataframe): 합쳐진 데이터프레임
-            column: [wkr-idx,sentence,subj_entity,obj_entity,subj_type,obj_type,subj_index,obj_index]
+            column: [wkr-idx,sentence,subj_entity,obj_entity,subj_type,obj_type,subj_index,obj_index,relation]
     """
 
     file_name_list = os.listdir(folder_dir)
@@ -53,19 +53,8 @@ def drop_duplicates(all_df):
     return dropped_df
 
 
-def print_stat(df):
-    """인자로 들어온 데이터프레임의 통계값을 print
-
-    Args:
-        df (pandas.DataFrame): 데이터가 들어있는 데이터프레임. 
-    """
-
-
-
 if __name__ == '__main__':
     all_df = merge('./outputs')
     dropped_df = drop_duplicates(all_df)
-
-    print_stat(dropped_df)
 
     dropped_df.to_csv('final_dataset_for_tagging.csv', index=False)
