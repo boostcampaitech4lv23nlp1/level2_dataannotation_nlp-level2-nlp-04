@@ -16,8 +16,8 @@ def stratify(args):
 
     train, test = train_test_split(full_data, test_size=args.test_size, random_state=SEED, stratify=full_data['label'])
 
-    train.to_csv(args.out_train, index=False)
-    test.to_csv(args.out_test, index=False)
+    train.to_csv(args.out_train)
+    test.to_csv(args.out_test)
 
     print('num of train: \t', len(train))
     print('num of test: \t', len(test))
