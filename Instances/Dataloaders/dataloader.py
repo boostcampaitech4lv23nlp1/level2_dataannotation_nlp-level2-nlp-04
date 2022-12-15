@@ -134,11 +134,9 @@ class Dataloader(pl.LightningDataModule):
 
     def setup(self, stage="fit"):  # train, dev, test는 모두 동일한 전처리 과정을 거칩니다
         if stage == "fit":
-            total_data = pd.read_csv(self.train_path)
-            split = StratifiedShuffleSplit(n_splits=1, test_size=1 - self.train_ratio, random_state=self.seed)
-            for train_idx, val_idx in split.split(total_data, total_data["label"]):
-                train_data = total_data.loc[train_idx]
-                val_data = total_data.loc[val_idx]
+            train_data = pd.read_csv(self.train_path)
+
+            val_data = pd.read_csv(self.val_path)
 
             train_inputs, train_labels = self.preprocessing(train_data)
             self.train_dataset = RE_Dataset(train_inputs, train_labels)
