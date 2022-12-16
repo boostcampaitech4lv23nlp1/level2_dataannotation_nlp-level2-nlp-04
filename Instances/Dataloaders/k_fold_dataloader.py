@@ -51,7 +51,7 @@ class KFoldDataloader(pl.LightningDataModule):
 
     def find_special_token(self, entity_marker_type):
         special_tokens = []
-        entity_types = ["PER", "ORG", "LOC", "DAT", "POH", "NOH"]
+        entity_types = ["PER", "ORG", "EVT", "SPT", "RST", "LOC", "DAT"]
         if entity_marker_type == "typed_entity_marker":
             for i in entity_types:
                 for j in ["", "/"]:

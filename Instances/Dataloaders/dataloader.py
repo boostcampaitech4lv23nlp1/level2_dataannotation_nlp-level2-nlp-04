@@ -27,6 +27,7 @@ class Dataloader(pl.LightningDataModule):
         self.train_path = conf.path.train_path  # train+dev data set 경로
         self.val_path = conf.path.val_path
         self.test_path = conf.path.test_path  # test data set 경로
+        self.val_path = conf.path.val_path  # validation data set 
         self.predict_path = conf.path.predict_path  # predict data set 경로
 
         self.train_dataset = None
@@ -46,7 +47,7 @@ class Dataloader(pl.LightningDataModule):
 
     def find_special_token(self, entity_marker_type):
         special_tokens = []
-        entity_types = ["PER", "ORG", "EVT", "SPT", "LOC", "DAT"]
+        entity_types = ["PER", "ORG", "EVT", "SPT", "RST", "LOC", "DAT"]
         if entity_marker_type == "typed_entity_marker":
             for i in entity_types:
                 for j in ["", "/"]:
