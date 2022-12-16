@@ -26,6 +26,7 @@ class Dataloader(pl.LightningDataModule):
 
         self.train_path = conf.path.train_path  # train+dev data set 경로
         self.test_path = conf.path.test_path  # test data set 경로
+        self.val_path = conf.path.val_path  # validation data set 
         self.predict_path = conf.path.predict_path  # predict data set 경로
 
         self.train_dataset = None
@@ -45,7 +46,7 @@ class Dataloader(pl.LightningDataModule):
 
     def find_special_token(self, entity_marker_type):
         special_tokens = []
-        entity_types = ["PER", "ORG", "LOC", "DAT", "POH", "NOH"]
+        entity_types = ["PER", "ORG", "EVT", "SPT", "RST", "LOC", "DAT"]
         if entity_marker_type == "typed_entity_marker":
             for i in entity_types:
                 for j in ["", "/"]:
@@ -115,19 +116,19 @@ class Dataloader(pl.LightningDataModule):
 
     def preprocessing(self, dataframe):  # 전체 전처리 과정을 모두 거쳐서 dataset input 형태로 구성할 수 있도록 하고 predict일 땐 빈 배열 반환
         """처음 불러온 csv 파일을 원하는 형태의 DataFrame으로 변경 시켜줍니다."""
-        subj_df = dataframe["subject_entity"].apply(lambda x: pd.Series(literal_eval(x))).add_prefix("subj_")
-        obj_df = dataframe["object_entity"].apply(lambda x: pd.Series(literal_eval(x))).add_prefix("obj_")
+        subj_df = dataframe["subj_entity"].apply(lambda x: pd.Series(literal_eval(x))).add_prefix("subj_")
+        obj_df = dataframe["obj_entity"].apply(lambda x: pd.Series(literal_eval(x))).add_prefix("obj_")
 
         subj_df.reset_index(drop=True, inplace=True)
         obj_df.reset_index(drop=True, inplace=True)
-        all_dataset = dataframe[["id", "sentence", "label"]]
+        all_dataset = dataframe[["id", "sentence", "relation"]]
         all_dataset.reset_index(drop=True, inplace=True)
         preprocessing_dataframe = pd.concat([all_dataset, subj_df, obj_df], axis=1)
 
-        if type(preprocessing_dataframe["label"].values[0]) == str:  # train, dev, test
-            labels = labels_ids.label_to_num(preprocessing_dataframe["label"].values)  # labels를 붙여줍니다
+        if type(preprocessing_dataframe["relation"].values[0]) == str:  # train, dev, test
+            labels = labels_ids.label_to_num(preprocessing_dataframe["relation"].values)  # labels를 붙여줍니다
         else:  # predict
-            labels = preprocessing_dataframe["label"].values
+            labels = preprocessing_dataframe["relation"].values
         inputs = self.tokenizing(preprocessing_dataframe, self.entity_marker_type)  # input 데이터를 토큰화해줍니다
 
         return inputs, labels  # 전처리한 inputs와 labels 반환합니다
