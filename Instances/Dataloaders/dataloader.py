@@ -70,7 +70,7 @@ class Dataloader(pl.LightningDataModule):
         concat_entity = []
 
         for sent, subj, subj_start, subj_end, subj_type, obj, obj_start, obj_end, obj_type in zip(
-            dataframe["sentence"], dataframe["subj_word"], dataframe["subj_start_idx"], dataframe["subj_end_idx"], dataframe["subj_type"], dataframe["obj_word"], dataframe["obj_start_idx"], dataframe["obj_end_idx"], dataframe["obj_type"]
+            dataframe["sentence"], dataframe["subj_entity"], dataframe["subj_start_idx"], dataframe["subj_end_idx"], dataframe["subj_type"], dataframe["obj_entity"], dataframe["obj_start_idx"], dataframe["obj_end_idx"], dataframe["obj_type"]
         ):
             if entity_marker_type == "typed_entity_marker":
                 temp_subj_type_start = f"[SUBJ-{str(subj_type)}]"
