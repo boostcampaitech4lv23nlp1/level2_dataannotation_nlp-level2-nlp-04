@@ -50,8 +50,15 @@ def get_predictions(args, conf):
         Tuple(list): test set에 대한 true값, prediction, 전체 class에 대한 logit값
     """
 
-    with open('./dict_label_to_num.pkl', 'rb') as f:
-        label_to_num = pickle.load(f)
+    label_to_num = {"관계_없음":0,
+        "인물:참가":1,
+        "인물:소속":2,
+        "인물:결과":3,
+        "단체:결과":4,
+        "단체:참가":5,
+        "행사:장소":6,
+        "행사:일시":7,
+        "행사:하위_행사":8}
 
     trainer = pl.Trainer(
         accelerator="gpu",
@@ -71,7 +78,7 @@ def get_predictions(args, conf):
     test_df = pd.read_csv(dataloader.test_path)
 
     x_text = list(get_punct_text(sent, sub, obj) for sent, sub, obj in zip(test_df['sentence'], test_df['subject_entity'], test_df['object_entity']))
-    y_true = list(test_df['label'].apply(lambda x: label_to_num[x]))
+    y_true = list(test_df['relation'].apply(lambda x: label_to_num[x]))
     y_pred = [np.argmax(logit, axis=-1).item() for logit in predictions]
     y_prob = [F.softmax(logit, dim=-1).tolist() for logit in predictions]
 
@@ -122,8 +129,15 @@ def error_analysis(args, conf):
         None: .csv 확장자로 './analysis/error_{wandb_name}_{epoch}.csv'로 저장
     """
 
-    with open('./dict_num_to_label.pkl', 'rb') as f:
-        num_to_label = pickle.load(f)
+    num_to_label = { 0:"관계_없음",
+        1:"인물:참가",
+        2:"인물:소속",
+        3:"인물:결과",
+        4:"단체:결과",
+        5:"단체:참가",
+        6:"행사:장소",
+        7:"행사:일시",
+        8:"행사:하위_행사"}
     
     x_text, y_true, y_pred, y_prob = get_predictions(args, conf)
 
@@ -158,8 +172,15 @@ def error_analysis(args, conf):
 
 def cm_and_error(args, conf):
 
-    with open('./dict_num_to_label.pkl', 'rb') as f:
-        num_to_label = pickle.load(f)
+    num_to_label = { 0:"관계_없음",
+        1:"인물:참가",
+        2:"인물:소속",
+        3:"인물:결과",
+        4:"단체:결과",
+        5:"단체:참가",
+        6:"행사:장소",
+        7:"행사:일시",
+        8:"행사:하위_행사"}
 
     x_text, y_true, y_pred, y_prob = get_predictions(args, conf)
 

@@ -1,9 +1,9 @@
 from ast import literal_eval
 import pandas as pd
 
-train = pd.read_csv('train.csv')
-dev = pd.read_csv('dev.csv')
-test = pd.read_csv('test.csv')
+train = pd.read_csv('./dataset/train/train.csv')
+dev = pd.read_csv('./dataset/train/dev.csv')
+test = pd.read_csv('./dataset/train/test.csv')
 
 
 
