@@ -5,6 +5,8 @@ train = pd.read_csv('train.csv')
 dev = pd.read_csv('dev.csv')
 test = pd.read_csv('test.csv')
 
+
+
 def making_dict(df):
     df['subj_index'] = df['subj_index'].apply(lambda x: literal_eval(x))
     df['obj_index'] = df['obj_index'].apply(lambda x: literal_eval(x))
@@ -26,6 +28,9 @@ def making_dict(df):
         y['end_idx'] = df['obj_index'][i]['end_idx']
         y['type'] = df['obj_type'][i]
         df['object_entity'][i] = y
+
+        x = dict()
+        y = dict()
         
 making_dict(train)
 making_dict(dev)
