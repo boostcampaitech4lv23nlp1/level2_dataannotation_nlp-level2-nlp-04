@@ -50,7 +50,8 @@ def get_predictions(args, conf):
         Tuple(list): test set에 대한 true값, prediction, 전체 class에 대한 logit값
     """
 
-    label_to_num = {"관계_없음":0,
+    label_to_num = {
+        "관계_없음":0,
         "인물:참가":1,
         "인물:소속":2,
         "인물:결과":3,
@@ -182,6 +183,8 @@ def cm_and_error(args, conf):
         7:"행사:일시",
         8:"행사:하위_행사"}
 
+    LABELS = ["no_relation", "per:participation", "per:member_of", "per:result", "org:result", "org:participation", "evt:location", "evt:date", "evt:sub_event"]
+
     x_text, y_true, y_pred, y_prob = get_predictions(args, conf)
 
     dir_path = "./analysis"
@@ -196,7 +199,7 @@ def cm_and_error(args, conf):
     confmat = confusion_matrix(y_true, y_pred, normalize='true')
 
     sns.set(rc={'figure.figsize':(22,18)})
-    fig = sns.heatmap(confmat, annot=True, fmt='.2f').get_figure()
+    fig = sns.heatmap(confmat, annot=True, fmt='.2f', xticklabels=LABELS, yticklabels=LABELS).get_figure()
 
     fig.savefig(f'{dir_path}/cm_{key}.png')
 
