@@ -81,8 +81,9 @@ Train set, Dev set, Test set의 관계 클래스별 분포</p>**
 </br>
 
 ## 4. Guideline
-- [Guideline 파일](https://github.com/boostcampaitech4lv23nlp1/level2_dataannotation_nlp-level2-nlp-04/files/10245443/04_guideline.pdf)
+- [Guideline 파일](https://github.com/boostcampaitech4lv23nlp1/level2_dataannotation_nlp-level2-nlp-04/files/10253413/04_guideline.pdf)
 </br>
+
 
 ## 5. 자체 평가 의견
 
